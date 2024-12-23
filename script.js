@@ -50,7 +50,7 @@ enterVal.addEventListener('keyup', async (e) => {
         feelsLikeBox.innerHTML = `Feels like ${newTemp.toFixed(1)}<sup class="super-script2">°C</sup>`
         // weatherIcon.setAttribute(src, imgUrl)
         // weatherIcon.src = imgUrl
-        console.log(imgUrl)
+        console.log(dayVibe)
     }
 })
 

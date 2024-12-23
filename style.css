@@ -33,6 +33,7 @@
     box-shadow: 2rem;
 }
 
+
 #enter-place{
     border: 0;
     width: 18vw;
@@ -48,7 +49,10 @@
     font-family: 'Times New Roman', Times, serif;
     text-decoration: none;
     text-transform: capitalize;
+}
 
+#enter-place:hover{
+    cursor: pointer;
 }
 
 #search{
@@ -164,3 +168,14 @@
     font-weight: 6  00;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
+
+
+
+
+@media screen and (max-width: 500px) {
+    .inner-container{
+        height: 100%;
+        width: 100%;
+        border-radius: 0;
+    }
+  }
