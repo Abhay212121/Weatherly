@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weatherly</title>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="outer-container">
+      <div class="inner-container">
+        <div class="search-bar">
+          <input type="text" id="enter-place" placeholder="Search" />
+          <button id="search">
+            <img src="Images/search-icon.png" alt="Search icon not found" />
+          </button>
+        </div>
+        <div class="place-date">
+          <div class="place-name">Weatherly</div>
+          <div class="date">00/00/0000</div>
+        </div>
+        <div class="temp-box">
+          <div class="temp">0<sup class="super-script1">°C</sup></div>
+          <div class="feels-like">
+            Feels like 0<sup class="super-script2">°C</sup>
+          </div>
+        </div>
+        <div class="weather-img">
+          <img
+            src="Images/default-icon.jpg"
+            alt="icon not found"
+            id="main-img"
+          />
+        </div>
+        <div class="data-icons">
+          <div class="humidity">
+            <img
+              src="Images/humidity-icon.png"
+              alt="icon not found"
+              class="icon"
+            />
+            <p class="data-icon-values" id="humidity-value">0</p>
+          </div>
+          <div class="wind">
+            <img src="Images/wind-logo.png" alt="icon not found" class="icon" />
+            <p class="data-icon-values" id="wind-value">0</p>
+          </div>
+          <div class="pressure">
+            <img src="Images/pressure-icon.png" alt="icon not found" />
+            <p class="data-icon-values" id="pressure-value">0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
