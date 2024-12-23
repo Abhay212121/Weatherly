@@ -81,6 +81,7 @@
 }
 
 .date{
+    font-family: Georgia, 'Times New Roman', Times, serif;
     color: rgb(134, 128, 128);
 }
 
@@ -100,6 +101,7 @@
 
 .feels-like{
     color: rgb(112, 82, 25);
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .super-script1{
@@ -128,11 +130,13 @@
 .data-icons{
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    gap: 1rem;
 }
 
 .humidity,.wind,.pressure{
-    height: 10vh;
+    height: 14vh;
+    width: auto;
+    padding: 1rem;
 }
 
 .pressure{
@@ -155,8 +159,8 @@
 }
 
 .data-icon-values{
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: center;
-    color: rgb(134, 128, 128);
-    font-family: 'Times New Roman', Times, serif;
+    font-weight: 6  00;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
