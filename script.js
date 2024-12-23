@@ -55,7 +55,7 @@ enterVal.addEventListener('keyup', async (e) => {
 })
 
 async function getLatAndLon() {
-    let url = `http://api.openweathermap.org/geo/1.0/direct?q=${place}&appid=${apiKey}`
+    let url = `https://api.openweathermap.org/geo/1.0/direct?q=${place}&appid=${apiKey}`
     let response = await fetch(url)
     data = await response.json()
     data = data[0]
