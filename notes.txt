@@ -1,0 +1,27 @@
+clear sky(01d)
+
+cloudy
+fewClouds(02d)
+scatteredClouds(03d)
+brokenclouds(04d)
+overcast clouds(04d)
+
+
+rain(500-531)
+
+
+
+
+thunderstorm -11d  (200-232)
+
+
+
+snow-13d (600-622)
+
+
+
+mist-50d (atmosphere)
+
+
+
+drizzle -09d (300-321)
