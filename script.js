@@ -10,48 +10,69 @@ let pressureVal = document.querySelector('#pressure-value')
 let weatherIcon = document.querySelector('#main-img')
 let feelsLikeBox = document.querySelector('.feels-like')
 let enterVal = document.querySelector('#enter-place')
+let readystate = document.readyState
 
-
+console.log(readystate)
 
 btn.addEventListener('click', async () => {
-    let inputVal = document.querySelector('#enter-place').value
-    place = inputVal
-    place = place.toUpperCase()
-    placeName.innerHTML = place
-    let date = getDate()
-    let { temp, humidity, iconId, dayVibe, windSpeed, pressure, feelsLike } = await getData()
-    let { tempInCel, tempInFar } = convertTemp(temp)
-    let { tempInCel: newTemp } = convertTemp(feelsLike)
-    let imgRef = getImgUrl(iconId)
-    date1.innerHTML = date
-    tempShow.innerHTML = tempInCel.toFixed(1) + `<sup class="super-script1">°C</sup>`
-    humidityVal.innerHTML = `${humidity}<sub>%</sub>`
-    windVal.innerHTML = `${windSpeed}<sub>m/sec</sub>`
-    pressureVal.innerHTML = `${pressure}<sub>hpa</sub>`
-    feelsLikeBox.innerHTML = `Feels like ${newTemp.toFixed(1)}<sup class="super-script2">°C</sup>`
-    weatherIcon.src = rootContext + 'images/' + imgRef
-    console.log(windSpeed)
-})
-
-enterVal.addEventListener('keyup', async (e) => {
-    if (e.key == 'Enter' && enterVal.value != '') {
+    try {
         let inputVal = document.querySelector('#enter-place').value
-        place = inputVal
         place = place.toUpperCase()
-        placeName.innerHTML = place
-        let { temp, humidity, iconId, dayVibe, windSpeed, pressure, feelsLike } = await getData()
         let date = getDate()
+        date1.innerHTML = date
+        let { temp, humidity, iconId, dayVibe, windSpeed, pressure, feelsLike } = await getData()
+        place = inputVal
         let { tempInCel, tempInFar } = convertTemp(temp)
         let { tempInCel: newTemp } = convertTemp(feelsLike)
         let imgRef = getImgUrl(iconId)
-        date1.innerHTML = date
         tempShow.innerHTML = tempInCel.toFixed(1) + `<sup class="super-script1">°C</sup>`
+        placeName.innerHTML = place
         humidityVal.innerHTML = `${humidity}<sub>%</sub>`
         windVal.innerHTML = `${windSpeed}<sub>m/sec</sub>`
         pressureVal.innerHTML = `${pressure}<sub>hpa</sub>`
         feelsLikeBox.innerHTML = `Feels like ${newTemp.toFixed(1)}<sup class="super-script2">°C</sup>`
         weatherIcon.src = 'Images/' + imgRef
-        console.log(iconId)
+    } catch (error) {
+        placeName.innerHTML = 'Not Found'
+        weatherIcon.src = 'Images/error.png'
+        windVal.innerHTML = '--'
+        pressureVal.innerHTML = '--'
+        feelsLikeBox.innerHTML = ' '
+        tempShow.innerHTML = '--'
+        humidityVal.innerHTML = '--'
+    }
+
+})
+
+enterVal.addEventListener('keyup', async (e) => {
+    if (e.key == 'Enter' && enterVal.value != '') {
+        try {
+            let inputVal = document.querySelector('#enter-place').value
+            place = inputVal
+            place = place.toUpperCase()
+            let date = getDate()
+            date1.innerHTML = date
+            let { temp, humidity, iconId, dayVibe, windSpeed, pressure, feelsLike, finalPlaceName } = await getData()
+            placeName.innerHTML = finalPlaceName
+            let { tempInCel, tempInFar } = convertTemp(temp)
+            let { tempInCel: newTemp } = convertTemp(feelsLike)
+            let imgRef = getImgUrl(iconId)
+            tempShow.innerHTML = tempInCel.toFixed(1) + `<sup class="super-script1">°C</sup>`
+            humidityVal.innerHTML = `${humidity}<sub>%</sub>`
+            windVal.innerHTML = `${windSpeed}<sub>m/sec</sub>`
+            pressureVal.innerHTML = `${pressure}<sub>hpa</sub>`
+            feelsLikeBox.innerHTML = `Feels like ${newTemp.toFixed(1)}<sup class="super-script2">°C</sup>`
+            weatherIcon.src = 'Images/' + imgRef
+        } catch (error) {
+            placeName.innerHTML = 'Not Found'
+            weatherIcon.src = 'Images/error.png'
+            windVal.innerHTML = '--'
+            pressureVal.innerHTML = '--'
+            feelsLikeBox.innerHTML = ' '
+            tempShow.innerHTML = '--'
+            humidityVal.innerHTML = '--'
+        }
+
     }
 })
 
@@ -62,11 +83,12 @@ async function getLatAndLon() {
     data = data[0]
     lat = data.lat
     lon = data.lon
-    return { lat, lon }
+    finalPlaceName = data.name
+    return { lat, lon, finalPlaceName }
 }
 
 async function getData() {
-    let { lat, lon } = await getLatAndLon()
+    let { lat, lon, finalPlaceName } = await getLatAndLon()
     let url2 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`
     let response = await fetch(url2)
     data = await response.json()
@@ -77,7 +99,7 @@ async function getData() {
     let windSpeed = data.wind.speed
     let iconId = data.weather[0].icon
     let dayVibe = data.weather[0].main
-    return { temp, humidity, windSpeed, iconId, dayVibe, pressure, feelsLike }
+    return { temp, humidity, windSpeed, iconId, dayVibe, pressure, feelsLike, finalPlaceName }
 }
 
 function convertTemp(temp) {
