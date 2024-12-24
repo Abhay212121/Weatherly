@@ -13,12 +13,15 @@ let enterVal = document.querySelector('#enter-place')
 let readystate = document.readyState
 
 
+
 async function myfunc() {
     try {
         let inputVal = document.querySelector('#enter-place').value
         let date = getDate()
         date1.innerHTML = date
         place = inputVal
+        let tempDabba = document.querySelector('#enter-place')
+        tempDabba.setAttribute('inputmode', 'none')
         let { temp, humidity, iconId, windSpeed, pressure, feelsLike } = await getData(place)
         let { tempInCel } = convertTemp(temp)
         let { tempInCel: newTemp } = convertTemp(feelsLike)
