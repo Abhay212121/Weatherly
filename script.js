@@ -12,20 +12,19 @@ let feelsLikeBox = document.querySelector('.feels-like')
 let enterVal = document.querySelector('#enter-place')
 let readystate = document.readyState
 
-console.log(readystate)
 
-btn.addEventListener('click', async () => {
+async function myfunc() {
     try {
         let inputVal = document.querySelector('#enter-place').value
-        place = place.toUpperCase()
         let date = getDate()
         date1.innerHTML = date
-        let { temp, humidity, iconId, dayVibe, windSpeed, pressure, feelsLike } = await getData()
         place = inputVal
-        let { tempInCel, tempInFar } = convertTemp(temp)
+        let { temp, humidity, iconId, windSpeed, pressure, feelsLike } = await getData(place)
+        let { tempInCel } = convertTemp(temp)
         let { tempInCel: newTemp } = convertTemp(feelsLike)
         let imgRef = getImgUrl(iconId)
         tempShow.innerHTML = tempInCel.toFixed(1) + `<sup class="super-script1">°C</sup>`
+        place = place.toUpperCase()
         placeName.innerHTML = place
         humidityVal.innerHTML = `${humidity}<sub>%</sub>`
         windVal.innerHTML = `${windSpeed}<sub>m/sec</sub>`
@@ -41,57 +40,32 @@ btn.addEventListener('click', async () => {
         tempShow.innerHTML = '--'
         humidityVal.innerHTML = '--'
     }
+}
 
-})
+btn.addEventListener('click', myfunc)
 
 enterVal.addEventListener('keyup', async (e) => {
     if (e.key == 'Enter' && enterVal.value != '') {
-        try {
-            let inputVal = document.querySelector('#enter-place').value
-            place = inputVal
-            place = place.toUpperCase()
-            let date = getDate()
-            date1.innerHTML = date
-            let { temp, humidity, iconId, dayVibe, windSpeed, pressure, feelsLike, finalPlaceName } = await getData()
-            placeName.innerHTML = finalPlaceName
-            let { tempInCel, tempInFar } = convertTemp(temp)
-            let { tempInCel: newTemp } = convertTemp(feelsLike)
-            let imgRef = getImgUrl(iconId)
-            tempShow.innerHTML = tempInCel.toFixed(1) + `<sup class="super-script1">°C</sup>`
-            humidityVal.innerHTML = `${humidity}<sub>%</sub>`
-            windVal.innerHTML = `${windSpeed}<sub>m/sec</sub>`
-            pressureVal.innerHTML = `${pressure}<sub>hpa</sub>`
-            feelsLikeBox.innerHTML = `Feels like ${newTemp.toFixed(1)}<sup class="super-script2">°C</sup>`
-            weatherIcon.src = 'Images/' + imgRef
-        } catch (error) {
-            placeName.innerHTML = 'Not Found'
-            weatherIcon.src = 'Images/error.png'
-            windVal.innerHTML = '--'
-            pressureVal.innerHTML = '--'
-            feelsLikeBox.innerHTML = ' '
-            tempShow.innerHTML = '--'
-            humidityVal.innerHTML = '--'
-        }
-
+        myfunc()
     }
 })
 
-async function getLatAndLon() {
+async function getLatAndLon(place) {
     let url = `https://api.openweathermap.org/geo/1.0/direct?q=${place}&appid=${apiKey}`
     let response = await fetch(url)
-    data = await response.json()
+    let data = await response.json()
     data = data[0]
-    lat = data.lat
-    lon = data.lon
-    finalPlaceName = data.name
+    let lat = data.lat
+    let lon = data.lon
+    let finalPlaceName = data.name
     return { lat, lon, finalPlaceName }
 }
 
-async function getData() {
-    let { lat, lon, finalPlaceName } = await getLatAndLon()
+async function getData(place) {
+    let { lat, lon, finalPlaceName } = await getLatAndLon(place)
     let url2 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`
     let response = await fetch(url2)
-    data = await response.json()
+    let data = await response.json()
     let temp = data.main.temp
     let humidity = data.main.humidity
     let pressure = data.main.pressure
